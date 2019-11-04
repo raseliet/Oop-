@@ -22,7 +22,11 @@ class Model {
         foreach ($rows as $row) {
             $row['id'] = $row['row_id'];
 
-            $drinks[] = new Drink($row);
+            if ($row['abarot'] > 20) {
+                $drinks[] = new StrongDrink($row);
+            } else {
+                $drinks[] = new LightDrink($row);
+            }
         }
 
         return $drinks;
