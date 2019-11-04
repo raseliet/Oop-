@@ -4,25 +4,27 @@ namespace App\Drinks;
 
 class Model {
 
-    private $db;
-    private $table_name = 'drinks';
+    protected $table_name = 'drinks';
 
     public function __construct() {
-        
-        \App\App::$db->createTable(\App\App::table_name);
+        \App\App::$db->createTable($this->table_name);
     }
 
     public function insert(Drink $drink) {
-        return \App\App::$db->insertRow(\App\App::table_name, $drink->getData());
+        return \App\App::$db->insertRow($this->table_name, $drink->getData());
     }
 
-    public function get($conditions) {
+    public function get(array $conditions = []): array {
         $drinks = [];
-        $rows = \App\App::$db->getRowsWhere(\App\App::table_name, $conditions);
+
+        $rows = \App\App::$db->getRowsWhere($this->table_name, $conditions);
+
         foreach ($rows as $row) {
             $row['id'] = $row['row_id'];
+
             $drinks[] = new Drink($row);
         }
+
         return $drinks;
     }
 
@@ -32,21 +34,24 @@ class Model {
      * @return bool
      */
     public function update(Drink $drink): bool {
-        return \App\App::$db->updateRow(\App\App::table_name, $drink->getID(), $drink->getData());
-    }
-
-    public function deleteDrink(Drink $drink) {
-        $drink_array = $drink->getData();
-
-        return \App\App::$db->deleteRow(\App\App::table_name, $drink_array['id']);
+        return \App\App::$db->updateRow($this->table_name, $drink->getID(), $drink->getData());
     }
 
     /**
+     * Delete a drink
+     * @param \App\Drinks\Drink $drink
      * @return bool
-     * Funkcija istrina visus Drink objektus esancius lenteleje.
      */
     public function delete(Drink $drink): bool {
-        return \App\App::$db->deleteRow(\App\App::table_name, $drink->getID());
+        return \App\App::$db->deleteRow($this->table_name, $drink->getID());
+    }
+
+    /**
+     * Delete all drinks
+     * @return bool
+     */
+    public function deleteAll(): bool {
+        return \App\App::$db->truncateTable($this->table_name);
     }
 
 }
