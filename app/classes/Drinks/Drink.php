@@ -3,10 +3,12 @@
 namespace App\Drinks;
 
 class Drink {
+
 	/**
 	 * @var array
 	 */
 	private $data = [];
+
 	public function __construct(array $data = null) {
 		if ($data) {
 			$this->setData($data);
@@ -20,6 +22,7 @@ class Drink {
 			];
 		}
 	}
+
 	/**
 	 * Sets all data from array
 	 * @param type $array
@@ -35,6 +38,7 @@ class Drink {
 		$this->setAbarot($array['abarot'] ?? null);
 		$this->setImage($array['image'] ?? null);
 	}
+
 	/**
 	 * Gets all data as array
 	 * @return array
@@ -48,11 +52,12 @@ class Drink {
 			'image' => $this->getImage()
 		];
 	}
+
 	/**
 	 * Sets ID
-	 * @param int $id
+	 * @param int|null $id
 	 */
-	public function setID(int $id) {
+	public function setID(?int $id) {
 		$this->data['id'] = $id;
 	}
 	
@@ -60,7 +65,7 @@ class Drink {
 	 * Set data name
 	 * @param string $name
 	 */
-	public function setName(string $name) {
+	public function setName(?string $name) {
 		$this->data['name'] = $name;
 	}
 	
@@ -68,31 +73,29 @@ class Drink {
 	 * Set data amount
 	 * @param int $amount
 	 */
-	public function setAmount(int $amount) {
+	public function setAmount(?int $amount) {
 		if ($amount >= 0) {
 			$this->data['amount_ml'] = $amount;
+			return $this->data['amount_ml'];
 		} else {
 			$this->data['amount_ml'] = 0;
+			return 0;
 		}
 	}
 	
 	/**
-	 * Set data abarot
-	 * @param float $abarot
+	 * 
+	 * @param float|null $abarot
 	 */
-	public function setAbarot(float $abarot) {
-		if ($abarot >= 0 && $abarot < 100) {
-			$this->data['abarot'] = $abarot;
-		} else {
-			throw new Exception('Abarot invalid');
-		}
+	public function setAbarot(?float $abarot) {
+		$this->data['abarot'] = $abarot;
 	}
 	
 	/**
-	 * Set data image
-	 * @param string $image
+	 * 
+	 * @param string|null $image
 	 */
-	public function setImage(string $image) {
+	public function setImage(?string $image) {
 		$this->data['image'] = $image;
 	}
 	
@@ -100,15 +103,15 @@ class Drink {
 	 * Gets ID
 	 * @return int|null
 	 */
-	public function getID() {
+	public function getID(): ?int {
 		return $this->data['id'];
 	}
-	
+
 	/**
 	 * Returns name
 	 * @return string|null
 	 */
-	public function getName() {
+	public function getName(): ?string {
 		return $this->data['name'];
 	}
 	
@@ -116,22 +119,24 @@ class Drink {
 	 * Returns amount in milliliters
 	 * @return int|null
 	 */
-	public function getAmount() {
+	public function getAmount(): ?int {
 		return $this->data['amount_ml'];
 	}
+
 	/**
 	 * Returns alcohol percentage
 	 * @return float|null
 	 */
-	public function getAbarot() {
+	public function getAbarot(): ?float {
 		return $this->data['abarot'];
 	}
+
 	/**
 	 * Returns image url
 	 * @return string|null
 	 */
-	public function getImage() {
+	public function getImage(): ?string {
 		return $this->data['image'];
 	}
-	
+
 }

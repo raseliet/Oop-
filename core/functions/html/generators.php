@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Generates HTML attributes
  * @param array $attr

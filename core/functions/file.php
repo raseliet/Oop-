@@ -10,6 +10,7 @@ function array_to_file($array, $filename) {
 	
 	return false;
 }
+
 function file_to_array($file) {
 	if (file_exists($file)) {
 		$json_string = file_get_contents($file);
