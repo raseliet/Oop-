@@ -1,38 +1,33 @@
 <?php
-
 namespace Core;
-
 class View {
-
-    protected $data;
-
-    //jeigu nieko nepaduos, tai paduos protected data su tusciu array
-    public function __construct($data = []) {
-        $this->data = $data;
-    }
-
-//view klase turi vieninteli metoda render, neskaitant construct
-    public function render(string $template_path) {
-        //tikrina, ar egzistuoja, tikisi stringo
-        if (!file_exists($template_path)) {
-            throw (new \Exception("Template with filename: "
-            . "$template_path does not exist!"));
-        }
-
-//data paduoda template, kurio reikia
-        $data = $this->data;
-
-//start buffering output  to memory
-        //pradeddam outputa sekti, sudarom stringa ir uzbufferinam html
-
-        ob_start();
-
-//load the view (template)
-//grazinamas sugeneruotas htmlas
-        require $template_path;
-
-//isvalo data, kuri buvo tvarkoma, isvalo vieta ir imasi kitos tvarkymo
-        return ob_get_clean();
-    }
-
+	
+	protected $data;
+	
+	public function __construct($data) {
+		$this->data = $data;
+	}
+	
+	/**
+	 * Renders array onto template
+	 * @param string $template_path
+	 * @return string HTML
+	 * @throws Exception
+	 */
+	public function render(string $template_path) {
+		// Check if template exists
+		if (!file_exists($template_path)) {
+			throw (new \Exception('Template with filename : ' . "$template_path does not exist!"));
+		}
+		
+		// Pass arguments to the $template_path (*.tpl.php) as $data variable
+		// as we require tpl file it's scoped to function's variables
+		$data = $this->data;
+	
+		// Start buffering output to memory
+		ob_start();
+		// Load the view (template)
+		require $template_path;
+		return ob_get_clean();
+	}
 }

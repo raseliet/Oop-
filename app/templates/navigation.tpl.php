@@ -27,18 +27,15 @@ namespace App\Views;
 //}-->
 
 
-<?php if (isset($data) && !empty($data)) ; ?>
-<nav>
-    <div class="wrapper">
-
-        <a href="<?php ?>"><img src="<?php print $data['icon']; ?> " alt="icon"></a>
-
-        <?php if (isset($data['links'])): ?>
-            <ul>
-                <?php foreach ($data['links'] as $link): ?>
-                    <li><a href="<?php print $link['url']; ?>"><?php print $link['title']; ?></a>
-                    <?php endforeach; ?>   
-            </ul>
-        <?php endif; ?>
-    </div>
-</nav>
+<?php if (isset($data) && !empty($data)): ?>
+	<nav>
+		<div class="wrapper">
+			<a href="/"><img src="<?php print $data['image']; ?>" alt="logo"></a>
+			<ul>
+				<?php foreach ($data['links'] as $link): ?>
+					<li><a href="<?php print $link['url']; ?>"><?php print $link['title']; ?></a></li>
+				<?php endforeach; ?>
+			</ul>
+		</div>
+	</nav>
+<?php endif; ?>

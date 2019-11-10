@@ -17,4 +17,5 @@ require ROOT . '/core/functions/html/generators.php';
 // Load App Functions
 require ROOT . '/app/functions/form/validators.php';
 
+
 $app = new App\App();

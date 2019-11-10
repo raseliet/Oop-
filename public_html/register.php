@@ -1,11 +1,9 @@
 <?php
 
 require '../bootloader.php';
-
-if (isset($_SESSION['logged_in_user'])) {
-	header('Location: index.php');
-}
-
+//if (isset($_SESSION['logged_in_user'])) {
+//	header('Location: index.php');
+//}
 $form = [
 	'title' => 'Registracija',
 	'fields' => [
@@ -76,12 +74,10 @@ $form = [
 		'fail' => 'form_fail'
 	]
 ];
-
 function form_fail($filtered_input, &$form) {
 	unset($form['fields']['password']['value']);
 	unset($form['fields']['password_repeat']['value']);
 }
-
 function form_success($filtered_input, $form) {
 	$modelUser = new \App\Users\Model();
 	$user = new App\Users\User($filtered_input);
@@ -89,13 +85,29 @@ function form_success($filtered_input, $form) {
 	
 	header('Location: login.php');
 }
-
 $filtered_input = get_filtered_input($form);
-
 if (!empty($filtered_input)) {
 	validate_form($filtered_input, $form);
 }
-
+$navigation = [
+	'image' => 'media/icon.png',
+	'links' => [
+		[
+			'url' => '/drinks.php',
+			'title' => 'Drinks'
+		],
+		[
+			'url' => '/login.php',
+			'title' => 'Login'
+		],
+		[
+			'url' => '/register.php',
+			'title' => 'Register'
+		],
+	]
+];
+$formView = new \Core\View($form);
+$navigationView = new Core\View($navigation);
 ?>
 <html>
     <head>
@@ -106,11 +118,11 @@ if (!empty($filtered_input)) {
 		<link rel="stylesheet" href="css/style.css">
 	</head>
 	<body>
-		<!--Require navigation-->
-		<?php require ROOT . '/app/templates/nav.tpl.php'; ?>
+		<!--Render navigation-->
+		<?php print $navigationView->render(ROOT . '/app/templates/navigation.tpl.php'); ?>
 		
-		<!--Require form template-->
-		<?php require ROOT . '/core/templates/form.tpl.php'; ?>
+		<!--Render form-->
+		<?php print $formView->render(ROOT . '/core/templates/form.tpl.php'); ?>
 		
 		<div class="wrapper">
 			<p>Arba <a href="login.php">prisijunk!</a></p>
